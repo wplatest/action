@@ -45,22 +45,16 @@ export async function run(): Promise<void> {
           token: WPLATEST_TOKEN
         })
 
+        core.info(`Response status: ${JSON.stringify(response)}`)
+
         if (!response.ok) {
-          if (
-            response.headers.get('content-type')?.includes('application/json')
-          ) {
-            const data = (await response.json()) as ApiErrorResponse
-
-            core.setFailed(
-              `Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`
-            )
-
-            return
-          }
+          const data = (await response.json()) as ApiErrorResponse
 
           core.setFailed(
-            `Failed to create new version: ${response.statusText ?? 'No data returned from WPLatest API'}`
+            `Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`
           )
+
+          return
         }
 
         const data = (await response.json()) as CreateNewVersionResponse
