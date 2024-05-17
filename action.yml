@@ -9,34 +9,25 @@ branding:
 inputs:
   'wplatest-token':
     description: 'WPLatest API token'
-    required: true
+    required: false
   'wplatest-action':
     description: 'WPLatest action'
     required: true
-  'wplatest-template-slug':
-    description: 'WPLatest template slug'
+  'wplatest-plugin-id':
+    description: 'WPLatest plugin id'
     required: true
   'github-token':
     description: 'GitHub token'
     required: true
   'wplatest-artifact-zip-url':
     description: 'Url to the zip file'
-    required: false
-  'repo-id':
-    description: 'GitHub repository ID'
     required: true
-  'timeout-seconds':
-    description: 'Timeout in seconds'
-    required: false
-  'update-comment':
-    description: 'Whether or not to update any comments or to create a new one'
-    required: false
 
 outputs:
-  wplatest_url:
-    description: 'WPLatest WordPress URL'
-  wplatest_magic_login_url:
-    description: 'WPLatest Magic Login URL'
+  version:
+    description: 'WPLatest new plugin version'
+  id:
+    description: 'WPLatest new plugin version id'
 
 runs:
   using: 'node20'
