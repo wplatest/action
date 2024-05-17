@@ -24709,7 +24709,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WPLATEST_API_BASE = exports.WPLATEST_ACTIONS = void 0;
 exports.WPLATEST_ACTIONS = ['create-new-version'];
-exports.WPLATEST_API_BASE = 'https://wplatest/api/v1';
+exports.WPLATEST_API_BASE = 'https://wplatest.co/api/v1';
 
 
 /***/ }),

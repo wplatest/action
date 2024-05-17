@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-import { getOctokit, context } from '@actions/github'
 import { WPLATEST_ACTIONS } from './constants'
 import type {
   ApiErrorResponse,
