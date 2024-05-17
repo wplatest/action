@@ -29,19 +29,10 @@ export async function run(): Promise<void> {
       return
     }
 
-    const octokit = getOctokit(GITHUB_TOKEN)
-    const pullRequestsNo = context.payload.pull_request?.number ?? 0
-    const repo = context.repo
-
     if (WPLATEST_ACTION === 'create-new-version') {
       core.info(`Creating new plugin version: ${WPLATEST_PLUGIN_ID}`)
 
-      if (ARTIFACT_URL) {
-        core.info(`Using artifact URL: ${ARTIFACT_URL}`)
-      }
-
-      const siteName = `${repo.owner}-${repo.repo}-${context.sha}`
-      const siteNameMaxLen = siteName.substring(0, 30)
+      core.info(`Using artifact URL: ${ARTIFACT_URL}`)
 
       const config = {
         zip_url: ARTIFACT_URL,
