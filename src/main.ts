@@ -30,13 +30,12 @@ export async function run(): Promise<void> {
 
     if (WPLATEST_ACTION === 'create-new-version') {
       core.info(`Creating new plugin version: ${WPLATEST_PLUGIN_ID}`)
-
       core.info(`Using artifact URL: ${ARTIFACT_URL}`)
 
-      const config = {
+      const config: CreateNewVersionInput = {
         zip_url: ARTIFACT_URL,
         plugin_id: WPLATEST_PLUGIN_ID
-      } satisfies CreateNewVersionInput
+      }
 
       core.info(`Creating new version with config: ${JSON.stringify(config)}`)
 
@@ -45,20 +44,17 @@ export async function run(): Promise<void> {
           token: WPLATEST_TOKEN
         })
 
-        core.info(`Response status: ${JSON.stringify(response)}`)
+        core.info(`Response status: ${response.status}`)
 
         if (!response.ok) {
           const data = (await response.json()) as ApiErrorResponse
-
           core.setFailed(
             `Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`
           )
-
           return
         }
 
         const data = (await response.json()) as CreateNewVersionResponse
-
         core.info(`New version created: ${data.id} - ${data.version}`)
       } catch (err) {
         const error = err as Error | unknown

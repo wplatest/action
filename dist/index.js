@@ -24709,7 +24709,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WPLATEST_API_BASE = exports.WPLATEST_ACTIONS = void 0;
 exports.WPLATEST_ACTIONS = ['create-new-version'];
-exports.WPLATEST_API_BASE = 'https://wplatest.co/api/v1';
+exports.WPLATEST_API_BASE = 'https://www.wplatest.co/api/v1';
 
 
 /***/ }),
@@ -24770,7 +24770,7 @@ async function run() {
                 const response = await (0, utils_1.createNewVersion)(config, {
                     token: WPLATEST_TOKEN
                 });
-                core.info(`Response status: ${JSON.stringify(response)}`);
+                core.info(`Response status: ${response.status}`);
                 if (!response.ok) {
                     const data = (await response.json());
                     core.setFailed(`Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`);
@@ -24812,6 +24812,7 @@ exports.run = run;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createNewVersion = exports.getWorkflowInput = void 0;
 const core_1 = __nccwpck_require__(9093);
+const constants_1 = __nccwpck_require__(8926);
 const getWorkflowInput = () => {
     const GITHUB_TOKEN = (0, core_1.getInput)('github-token');
     const WPLATEST_TOKEN = (0, core_1.getInput)('wplatest-token', {
@@ -24840,7 +24841,7 @@ const commonHeaders = (token) => {
     return headers;
 };
 async function createNewVersion(config, { token }) {
-    return await fetch(`https://wplatest.co/api/v1/plugin/update`, {
+    return await fetch(`${constants_1.WPLATEST_API_BASE}/plugin/update`, {
         method: 'POST',
         headers: commonHeaders(token),
         body: JSON.stringify(config)
