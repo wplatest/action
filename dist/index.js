@@ -24770,13 +24770,11 @@ async function run() {
                 const response = await (0, utils_1.createNewVersion)(config, {
                     token: WPLATEST_TOKEN
                 });
+                core.info(`Response status: ${JSON.stringify(response)}`);
                 if (!response.ok) {
-                    if (response.headers.get('content-type')?.includes('application/json')) {
-                        const data = (await response.json());
-                        core.setFailed(`Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`);
-                        return;
-                    }
-                    core.setFailed(`Failed to create new version: ${response.statusText ?? 'No data returned from WPLatest API'}`);
+                    const data = (await response.json());
+                    core.setFailed(`Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`);
+                    return;
                 }
                 const data = (await response.json());
                 core.info(`New version created: ${data.id} - ${data.version}`);
