@@ -67,7 +67,7 @@ export async function run(): Promise<void> {
         // If fetch error, change the msg
         if (msg.includes('Failed to fetch') || msg.includes('fetch failed')) {
           const response = err as Response | unknown
-          msg = `Failed to fetch: JSON.stringify(response)`
+          msg = `Failed to fetch: ${JSON.stringify(response)}`
         }
 
         core.setFailed(`Failed to create new version: ${msg}`)
