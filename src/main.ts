@@ -62,7 +62,13 @@ export async function run(): Promise<void> {
         core.info(`New version created: ${data.id} - ${data.version}`)
       } catch (err) {
         const error = err as Error | unknown
-        const msg = error instanceof Error ? error.message : 'Unknown error'
+        let msg = error instanceof Error ? error.message : 'Unknown error'
+
+        // If fetch error, change the msg
+        if (msg.includes('Failed to fetch')) {
+          const response = err as Response | unknown
+          msg = `Failed to fetch: ${response instanceof Response ? JSON.stringify(response) : 'Unknown response'}`
+        }
 
         core.setFailed(`Failed to create new version: ${msg}`)
       }

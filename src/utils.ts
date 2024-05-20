@@ -44,7 +44,7 @@ export async function createNewVersion(
   config: CreateNewVersionInput,
   { token }: ApiOptions
 ) {
-  return await fetch(`${WPLATEST_API_BASE}/plugin/update`, {
+  return await fetch(`https://wplatest.co/api/v1/plugin/update`, {
     method: 'POST',
     headers: commonHeaders(token),
     body: JSON.stringify(config)
