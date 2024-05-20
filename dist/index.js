@@ -24783,7 +24783,7 @@ async function run() {
                 const error = err;
                 let msg = error instanceof Error ? error.message : 'Unknown error';
                 // If fetch error, change the msg
-                if (msg.includes('Failed to fetch')) {
+                if (msg.includes('Failed to fetch') || msg.includes('fetch failed')) {
                     const response = err;
                     msg = `Failed to fetch: ${response instanceof Response ? JSON.stringify(response) : 'Unknown response'}`;
                 }

@@ -65,7 +65,7 @@ export async function run(): Promise<void> {
         let msg = error instanceof Error ? error.message : 'Unknown error'
 
         // If fetch error, change the msg
-        if (msg.includes('Failed to fetch')) {
+        if (msg.includes('Failed to fetch') || msg.includes('fetch failed')) {
           const response = err as Response | unknown
           msg = `Failed to fetch: ${response instanceof Response ? JSON.stringify(response) : 'Unknown response'}`
         }
