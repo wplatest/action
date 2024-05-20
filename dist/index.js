@@ -24781,7 +24781,12 @@ async function run() {
             }
             catch (err) {
                 const error = err;
-                const msg = error instanceof Error ? error.message : 'Unknown error';
+                let msg = error instanceof Error ? error.message : 'Unknown error';
+                // If fetch error, change the msg
+                if (msg.includes('Failed to fetch')) {
+                    const response = err;
+                    msg = `Failed to fetch: ${response instanceof Response ? JSON.stringify(response) : 'Unknown response'}`;
+                }
                 core.setFailed(`Failed to create new version: ${msg}`);
             }
         }
@@ -24807,7 +24812,6 @@ exports.run = run;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createNewVersion = exports.getWorkflowInput = void 0;
 const core_1 = __nccwpck_require__(9093);
-const constants_1 = __nccwpck_require__(8926);
 const getWorkflowInput = () => {
     const GITHUB_TOKEN = (0, core_1.getInput)('github-token');
     const WPLATEST_TOKEN = (0, core_1.getInput)('wplatest-token', {
@@ -24836,7 +24840,7 @@ const commonHeaders = (token) => {
     return headers;
 };
 async function createNewVersion(config, { token }) {
-    return await fetch(`${constants_1.WPLATEST_API_BASE}/plugin/update`, {
+    return await fetch(`https://wplatest.co/api/v1/plugin/update`, {
         method: 'POST',
         headers: commonHeaders(token),
         body: JSON.stringify(config)
