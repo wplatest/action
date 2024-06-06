@@ -24753,7 +24753,7 @@ const utils_1 = __nccwpck_require__(442);
  */
 async function run() {
     try {
-        const { ARTIFACT_URL, GITHUB_TOKEN, WPLATEST_TOKEN, WPLATEST_ACTION, WPLATEST_PLUGIN_ID } = (0, utils_1.getWorkflowInput)();
+        const { ARTIFACT_URL, GITHUB_TOKEN, WPLATEST_SECRET, WPLATEST_ACTION, WPLATEST_PLUGIN_ID } = (0, utils_1.getWorkflowInput)();
         if (!constants_1.WPLATEST_ACTIONS.includes(WPLATEST_ACTION)) {
             core.setFailed(`Invalid action: ${WPLATEST_ACTION}. Must be one of: ${constants_1.WPLATEST_ACTIONS.join(', ')}`);
             return;
@@ -24768,7 +24768,7 @@ async function run() {
             core.info(`Creating new version with config: ${JSON.stringify(config)}`);
             try {
                 const response = await (0, utils_1.createNewVersion)(config, {
-                    token: WPLATEST_TOKEN
+                    secret: WPLATEST_SECRET
                 });
                 core.info(`Response status: ${response.status}`);
                 if (!response.ok) {
@@ -24815,35 +24815,31 @@ const core_1 = __nccwpck_require__(9093);
 const constants_1 = __nccwpck_require__(8926);
 const getWorkflowInput = () => {
     const GITHUB_TOKEN = (0, core_1.getInput)('github-token');
-    const WPLATEST_TOKEN = (0, core_1.getInput)('wplatest-token', {
-        required: false
-    }) ?? null;
+    const WPLATEST_SECRET = (0, core_1.getInput)('wplatest-secret', { required: true });
     const WPLATEST_ACTION = (0, core_1.getInput)('wplatest-action');
     const WPLATEST_PLUGIN_ID = (0, core_1.getInput)('wplatest-plugin-id');
     const ARTIFACT_URL = (0, core_1.getInput)('wplatest-artifact-zip-url');
     return {
         ARTIFACT_URL,
         GITHUB_TOKEN,
-        WPLATEST_TOKEN,
+        WPLATEST_SECRET,
         WPLATEST_ACTION,
         WPLATEST_PLUGIN_ID
     };
 };
 exports.getWorkflowInput = getWorkflowInput;
-const commonHeaders = (token) => {
+const commonHeaders = (secret) => {
     const headers = {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${secret}`
     };
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-    }
     return headers;
 };
-async function createNewVersion(config, { token }) {
+async function createNewVersion(config, { secret }) {
     return await fetch(`${constants_1.WPLATEST_API_BASE}/plugin/update`, {
         method: 'POST',
-        headers: commonHeaders(token),
+        headers: commonHeaders(secret),
         body: JSON.stringify(config)
     });
 }
