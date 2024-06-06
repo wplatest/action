@@ -4,8 +4,7 @@ export type Maybe<T> = T | undefined | null
 export type WPLatestAction = (typeof WPLATEST_ACTIONS)[number]
 
 export type ApiOptions = {
-  // Tokens are optional as not all API endpoints require authentication
-  token: string | null
+  secret: string
 }
 
 export type ApiErrorResponse = {

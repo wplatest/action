@@ -7,7 +7,7 @@ branding:
   color: 'red'
 
 inputs:
-  'wplatest-token':
+  'wplatest-secret':
     description: 'WPLatest API token'
     required: false
   'wplatest-action':

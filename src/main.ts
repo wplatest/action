@@ -16,7 +16,7 @@ export async function run(): Promise<void> {
     const {
       ARTIFACT_URL,
       GITHUB_TOKEN,
-      WPLATEST_TOKEN,
+      WPLATEST_SECRET,
       WPLATEST_ACTION,
       WPLATEST_PLUGIN_ID
     } = getWorkflowInput()
@@ -41,7 +41,7 @@ export async function run(): Promise<void> {
 
       try {
         const response = await createNewVersion(config, {
-          token: WPLATEST_TOKEN
+          secret: WPLATEST_SECRET
         })
 
         core.info(`Response status: ${response.status}`)
