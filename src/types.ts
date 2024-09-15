@@ -14,6 +14,7 @@ export type ApiErrorResponse = {
 
 export type CreateNewVersionInput = {
   plugin_id: string
+  slug: string
   zip_url: string
 }
 

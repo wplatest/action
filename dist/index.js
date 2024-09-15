@@ -24753,7 +24753,7 @@ const utils_1 = __nccwpck_require__(442);
  */
 async function run() {
     try {
-        const { ARTIFACT_URL, GITHUB_TOKEN, WPLATEST_SECRET, WPLATEST_ACTION, WPLATEST_PLUGIN_ID } = (0, utils_1.getWorkflowInput)();
+        const { ARTIFACT_URL, GITHUB_TOKEN, WPLATEST_SECRET, WPLATEST_ACTION, WPLATEST_PLUGIN_ID, WPLATEST_SLUG } = (0, utils_1.getWorkflowInput)();
         if (!constants_1.WPLATEST_ACTIONS.includes(WPLATEST_ACTION)) {
             core.setFailed(`Invalid action: ${WPLATEST_ACTION}. Must be one of: ${constants_1.WPLATEST_ACTIONS.join(', ')}`);
             return;
@@ -24762,6 +24762,7 @@ async function run() {
             core.info(`Creating new plugin version: ${WPLATEST_PLUGIN_ID}`);
             core.info(`Using artifact URL: ${ARTIFACT_URL}`);
             const config = {
+                slug: WPLATEST_SLUG,
                 zip_url: ARTIFACT_URL,
                 plugin_id: WPLATEST_PLUGIN_ID
             };
@@ -24818,13 +24819,15 @@ const getWorkflowInput = () => {
     const WPLATEST_SECRET = (0, core_1.getInput)('wplatest-secret', { required: true });
     const WPLATEST_ACTION = (0, core_1.getInput)('wplatest-action');
     const WPLATEST_PLUGIN_ID = (0, core_1.getInput)('wplatest-plugin-id');
+    const WPLATEST_SLUG = (0, core_1.getInput)('wplatest-slug', { required: true });
     const ARTIFACT_URL = (0, core_1.getInput)('wplatest-artifact-zip-url');
     return {
         ARTIFACT_URL,
         GITHUB_TOKEN,
         WPLATEST_SECRET,
         WPLATEST_ACTION,
-        WPLATEST_PLUGIN_ID
+        WPLATEST_PLUGIN_ID,
+        WPLATEST_SLUG
     };
 };
 exports.getWorkflowInput = getWorkflowInput;

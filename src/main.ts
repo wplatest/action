@@ -18,7 +18,8 @@ export async function run(): Promise<void> {
       GITHUB_TOKEN,
       WPLATEST_SECRET,
       WPLATEST_ACTION,
-      WPLATEST_PLUGIN_ID
+      WPLATEST_PLUGIN_ID,
+      WPLATEST_SLUG
     } = getWorkflowInput()
 
     if (!WPLATEST_ACTIONS.includes(WPLATEST_ACTION)) {
@@ -33,6 +34,7 @@ export async function run(): Promise<void> {
       core.info(`Using artifact URL: ${ARTIFACT_URL}`)
 
       const config: CreateNewVersionInput = {
+        slug: WPLATEST_SLUG,
         zip_url: ARTIFACT_URL,
         plugin_id: WPLATEST_PLUGIN_ID
       }
