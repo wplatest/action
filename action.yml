@@ -16,9 +16,6 @@ inputs:
   'wplatest-plugin-id':
     description: 'WPLatest plugin id'
     required: true
-  'wplatest-slug':
-    description: 'WordPress plugin folder name (slug) in the plugin directory'
-    required: true
   'github-token':
     description: 'GitHub token'
     required: true

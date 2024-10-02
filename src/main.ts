@@ -18,8 +18,7 @@ export async function run(): Promise<void> {
       GITHUB_TOKEN,
       WPLATEST_SECRET,
       WPLATEST_ACTION,
-      WPLATEST_PLUGIN_ID,
-      WPLATEST_SLUG
+      WPLATEST_PLUGIN_ID
     } = getWorkflowInput()
 
     if (!WPLATEST_ACTIONS.includes(WPLATEST_ACTION)) {
@@ -34,7 +33,6 @@ export async function run(): Promise<void> {
       core.info(`Using artifact URL: ${ARTIFACT_URL}`)
 
       const config: CreateNewVersionInput = {
-        slug: WPLATEST_SLUG,
         zip_url: ARTIFACT_URL,
         plugin_id: WPLATEST_PLUGIN_ID
       }
@@ -50,6 +48,7 @@ export async function run(): Promise<void> {
 
         if (!response.ok) {
           const data = (await response.json()) as ApiErrorResponse
+
           core.setFailed(
             `Failed to create new version: ${data.message ?? 'No data returned from WPLatest API'}`
           )
@@ -58,6 +57,9 @@ export async function run(): Promise<void> {
 
         const data = (await response.json()) as CreateNewVersionResponse
         core.info(`New version created: ${data.id} - ${data.version}`)
+
+        core.setOutput('id', data.id)
+        core.setOutput('version', data.version)
       } catch (err) {
         const error = err as Error | unknown
         let msg = error instanceof Error ? error.message : 'Unknown error'

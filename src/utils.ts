@@ -7,14 +7,12 @@ export const getWorkflowInput = (): {
   WPLATEST_SECRET: string
   WPLATEST_ACTION: WPLatestAction
   WPLATEST_PLUGIN_ID: string
-  WPLATEST_SLUG: string
   ARTIFACT_URL: string
 } => {
   const GITHUB_TOKEN = getInput('github-token')
   const WPLATEST_SECRET = getInput('wplatest-secret', { required: true })
   const WPLATEST_ACTION = getInput('wplatest-action') as WPLatestAction
   const WPLATEST_PLUGIN_ID = getInput('wplatest-plugin-id')
-  const WPLATEST_SLUG = getInput('wplatest-slug', { required: true })
   const ARTIFACT_URL = getInput('wplatest-artifact-zip-url')
 
   return {
@@ -22,8 +20,7 @@ export const getWorkflowInput = (): {
     GITHUB_TOKEN,
     WPLATEST_SECRET,
     WPLATEST_ACTION,
-    WPLATEST_PLUGIN_ID,
-    WPLATEST_SLUG
+    WPLATEST_PLUGIN_ID
   }
 }
 
